@@ -1,0 +1,112 @@
+// Please read Deloitte Social pdf before you start coding, thanks! //
+import java.lang.Math;
+public class Main {
+  public static void main(String[] args) throws Exception {
+    //
+    // Examples
+    //
+    System.out.println(whoLikedMe(new String[] {})); // must be "no one likes this"
+    System.out.println(whoLikedMe(new String[] { "John" })); // must be "John likes this"
+    System.out.println(whoLikedMe(new String[] { "John", "Alicia" })); // must be "John and Alicia like this"
+    System.out.println(whoLikedMe(new String[] { "John", "Alicia", "Mark" })); // must be "John, Alicia and Mark like this"
+    System.out.println(whoLikedMe(new String[] { "John", "Alicia", "Mark", "Alex" })); // must be "John, Alicia and 2 others like this"
+
+    System.out.println(complexId(454)); // 162516
+    System.out.println(complexId(2233)); // 4499
+    System.out.println(complexId(9118)); // 811164
+
+    System.out.println(isValid(new char[] { 'n', 'e', 'w', 's' })); // false
+    System.out.println(isValid(new char[] { 'n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 's' })); // true
+    System.out.println(isValid(new char[] { 'n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 'n' })); // false
+    System.out.println(isValid(new char[] { 'n', 'e', 'w', 's', 'n', 'e', 'w', 's', 'n', 's' })); // true
+  }
+
+  public static String whoLikedMe(String[] names) {
+    String myString = "";
+    if(names.length==0){
+      //System.out.print("no one likes this\n");
+      myString+="no one likes this\n";
+    }else if(names.length<4 && names.length>0){
+      for(int i=0;i<names.length;i++){
+        if(i==0){ // the first one
+          myString+=names[i];
+          //System.out.print(names[i]);
+        }else if(i==names.length-1){ //the last one
+          myString+=" and "+names[i];
+          //System.out.print(" and "+names[i]);
+        }else{
+          myString+=", "+names[i];
+          //System.out.print(", "+names[i]);
+        }
+      }
+      myString+=" likes this\n";
+      //System.out.print(" likes this\n");
+    }else if(names.length>3){
+      int maxShown = 2;
+      for(int i=0;i<maxShown;i++){
+        if(i==0){
+          myString+=names[i];
+          //System.out.print(names[i]);
+        }else if(i==1){
+          myString+=", "+names[i]+" and "+(names.length-maxShown)+" others like this\n";
+          //System.out.print(", "+names[i]+" and "+(names.length-maxShown)+" others like this\n");
+        }
+      }
+    }
+    return myString;
+  }
+
+  public static int complexId(int postId) {
+    int newInt=0;
+    int i=0;
+    int test;
+    //System.out.println(postId);
+    while (postId > 0) {
+      test = postId % 10;
+      //System.out.println(test);
+      newInt+= ((Math.pow(10, i))*(Math.pow(test,2)));
+      //System.out.println(Math.pow(test,2));
+      postId = postId / 10;
+      i++;
+    }
+    return newInt;
+  }
+
+  public static boolean isValid(char[] steps) {
+    //for(int i=0;i<steps.length;i++){
+      //System.out.print(" "+steps[i]+" ");
+    //}
+    //System.out.print("\n");
+    int n=0;
+    int s=0;
+    int w=0;
+    int e=0;
+    if(steps.length>10){
+      System.out.println("The path takes more than 10 minutes");
+      return false;
+    }else if(steps.length % 2 != 0){
+      System.out.println("The path doesn't return you in the first place");
+    }else{
+      for(int i=0;i<steps.length;i++){
+        if(steps[i]=='n'){
+          n++;
+        }else if(steps[i]=='e'){
+          e++;
+        }else if(steps[i]=='w'){
+          w++;
+        }else{ // s
+          s++;
+        }
+      }
+      //System.out.println("n == "+n);
+      //System.out.println("s == "+s);
+      //System.out.println("e == "+e);
+      //System.out.println("w == "+w);
+      if(n==s && w==e){
+        return true;
+      }
+    }
+    System.out.println("The path doesn't return you in the first place");
+    return false;
+  }
+}
